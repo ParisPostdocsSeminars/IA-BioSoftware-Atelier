@@ -1,4 +1,3 @@
-import os
 import pytest
 from unittest import mock
 from datetime import datetime
@@ -87,7 +86,9 @@ def test_get_sauce(mock_input):
     Test get_sauce returns expected sauces, mocking password input.
     """
     sauce = burger.get_sauce()
-    assert "ketchup" in sauce and "mustard" in sauce
+    # Breaking assertion into parts for better clarity
+    assert "ketchup" in sauce
+    assert "mustard" in sauce
 
 
 @mock.patch("builtins.input", return_value="cheddar")
