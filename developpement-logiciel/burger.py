@@ -31,6 +31,9 @@ def get_bun():
         else:
             print(f"Invalid bun type '{bun_type}'. Please choose from the available options.")
 
+def get_bun_v2():
+    return get_bun()
+
 def get_meat():
     while True:
         meat_type = input(f"Enter the meat type: Options: {ALLOWED_MEATS}\n").strip().lower()
@@ -107,11 +110,11 @@ def assemble_burger():
 
 def save_burger(burger):
     try:
-        with open("/tmp/burger.txt", "w") as f:
+        with open("./tmp/burger.txt", "w") as f:
             f.write(burger)
-        with open("/tmp/burger_count.txt", "w") as f:
+        with open("./tmp/burger_count.txt", "w") as f:
             f.write(str(BURGER_COUNT))
-        print("Burger saved to /tmp/burger.txt")
+        print("Burger saved to ./tmp/burger.txt")
     except Exception as e:
         print(f"Error saving burger: {e}")
 
