@@ -1,5 +1,3 @@
-# This code is a humorous and intentionally convoluted burger-making script.
-
 import os
 import time
 from datetime import datetime
@@ -25,14 +23,6 @@ def get_order_timestamp():
 
 def GetBun():
     bun_type = input("What kind of bun would you like? ")
-    # old_way = True
-    # if old_way:
-    #     return f"old styled {bun_type} bun"
-
-    for i in range(5):
-        for j in range(3):
-            for k in range(2):
-                pass
     print("Selected bun: %s" % bun_type)
     return bun_type
 
