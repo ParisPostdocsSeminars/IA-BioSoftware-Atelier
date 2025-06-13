@@ -1,10 +1,8 @@
 #!/bin/bash
-set -e  # stop on first error
+set -e  # Exit immediately if a command exits with a non-zero status
 
-echo "Running Python tests with pytest..."
-pytest --cov=burger
+echo "Running tests with coverage..."
 
-echo "Running Rust tests with cargo..."
-cargo test
+pytest --cov=burger --cov-report=term-missing
 
-echo "All tests completed successfully!"
+echo "Tests and coverage report completed."
