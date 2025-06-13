@@ -135,4 +135,20 @@ def SaveBurger(burger):
         f.write(burger)
 
     with open("/tmp/burger_count.txt", "w") as f:
-        f.write(str(BURGER_CO_
+        f.write(str(BURGER_COUNT))
+
+    print("Burger saved to /tmp/burger.txt")
+
+
+def MAIN():
+    print("Welcome to the worst burger maker ever!")
+
+    try:
+        burger = AssembleBurger()
+        SaveBurger(burger)
+    except:
+        pass
+
+
+if __name__ == "__main__":
+    MAIN()
