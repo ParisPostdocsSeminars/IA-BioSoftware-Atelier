@@ -39,20 +39,13 @@ def calculate_burger_price(ingredients_list):
             return price
         return add_tax_recursive(price + (price * 0.1), tax_iterations - 1)
 
-    def sum_ingredients_recursive(ingredients):
-        if not ingredients:
-            return 0
+    def sum_ingredients(ingredients):
+        total = 0
+        for ingredient in ingredients:
+            total += INGREDIENT_PRICES.get(ingredient, 0)
+        return total
 
-        current = ingredients.pop(0)
-
-        try:
-            price = INGREDIENT_PRICES.get(current, 0)
-        except:
-            price = 0
-
-        return price + sum_ingredients_recursive(ingredients)
-
-    base_price = sum_ingredients_recursive(ingredients_list)
+    base_price = sum_ingredients(ingredients_list)
     final_price = add_tax_recursive(base_price, 2)
 
     return final_price
@@ -100,15 +93,16 @@ def AssembleBurger():
     BURGER_COUNT += 1
 
     try:
+        meat = getMeat()
         burger_data = {
             "bun": GetBun(),
-            "meat": getMeat(),
+            "meat": meat,
             "sauce": GET_SAUCE(),
             "cheese": get_cheese123(),
             "id": BURGER_COUNT,
             "price": calculate_burger_price(
-                ["bun", "meat", "cheese"]
-            ),  # Potential stack overflow
+                ["bun", meat, "cheese"]  # Use actual meat type here
+            ),
             "timestamp": get_order_timestamp(),
         }
     except:
