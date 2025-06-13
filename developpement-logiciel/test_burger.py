@@ -108,37 +108,4 @@ def test_get_cheese(mock_print, mock_input):
 @mock.patch("burger.get_cheese", return_value="cheddar")
 @mock.patch("burger.calculate_burger_price", return_value=10.0)
 def test_assemble_burger(
-    mock_price, mock_cheese, mock_sauce, mock_meat, mock_bun
-):
-    """
-    Test assemble_burger returns a string containing all components
-    of the burger in the expected format.
-    """
-    burger_str = burger.assemble_burger()
-    assert "white bun" in burger_str
-    assert "beef" in burger_str
-    assert "ketchup and mustard" in burger_str
-    assert "cheddar cheese" in burger_str
-
-
-@mock.patch("builtins.open", new_callable=mock.mock_open)
-def test_save_burger(mock_open):
-    """
-    Test save_burger writes burger data and burger count to files.
-    """
-    test_burger = "test burger"
-    burger.save_burger(test_burger)
-    # Should write burger and burger count to files
-    assert mock_open.call_count >= 2
-    mock_open().write.assert_any_call(test_burger)
-
-
-@mock.patch("burger.assemble_burger", return_value="burger")
-@mock.patch("burger.save_burger")
-def test_main(mock_save, mock_assemble):
-    """
-    Test main function calls assemble_burger and save_burger once.
-    """
-    burger.main()
-    mock_assemble.assert_called_once()
-    mock_save.assert_called_once_with("burger")
+    moc
