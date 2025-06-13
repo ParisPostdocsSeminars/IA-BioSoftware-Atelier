@@ -1,0 +1,334 @@
+burger.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / import os
+2 | | import logging
+3 | | from datetime import datetime
+  | |_____________________________^ I001
+4 |
+5 |   # Setup logging
+  |
+  = help: Organize imports
+
+burger.py:16:5: D413 [*] Missing blank line after last section ("Raises")
+   |
+14 |         str: The secret sauce password.
+15 |
+16 |     Raises:
+   |     ^^^^^^ D413
+17 |         ValueError: If the password is not set and no input is given.
+18 |     """
+   |
+   = help: Add blank line after "Raises"
+
+burger.py:62:5: D413 [*] Missing blank line after last section ("Raises")
+   |
+60 |         str: Validated user choice in lowercase.
+61 |
+62 |     Raises:
+   |     ^^^^^^ D413
+63 |         ValueError: If the user fails to provide a valid choice in max_attempts.
+64 |     """
+   |
+   = help: Add blank line after "Raises"
+
+test_burger.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / import pytest
+2 | | from unittest import mock
+3 | | from datetime import datetime
+4 | | import burger
+  | |_____________^ I001
+  |
+  = help: Organize imports
+
+test_burger.py:9:5: D205 1 blank line required between summary line and description
+   |
+ 7 |   @pytest.fixture(autouse=True)
+ 8 |   def set_secret_sauce_password(monkeypatch):
+ 9 | /     """
+10 | |     Fixture to set the SECRET_SAUCE_PASSWORD environment variable
+11 | |     for all tests to avoid interactive input.
+12 | |     """
+   | |_______^ D205
+13 |       monkeypatch.setenv("SECRET_SAUCE_PASSWORD", "testpassword")
+   |
+   = help: Insert single blank line
+
+test_burger.py:17:5: D205 1 blank line required between summary line and description
+   |
+16 |   def test_get_order_timestamp():
+17 | /     """
+18 | |     Test that get_order_timestamp returns a string
+19 | |     representing the current timestamp in the expected format.
+20 | |     """
+   | |_______^ D205
+21 |       ts = burger.get_order_timestamp()
+22 |       assert isinstance(ts, str)
+   |
+   = help: Insert single blank line
+
+test_burger.py:22:5: S101 Use of `assert` detected
+   |
+20 |     """
+21 |     ts = burger.get_order_timestamp()
+22 |     assert isinstance(ts, str)
+   |     ^^^^^^ S101
+23 |     # This will raise if format is wrong
+24 |     datetime.strptime(ts, "%Y-%m-%d %H:%M:%S.%f")
+   |
+
+test_burger.py:29:5: D200 One-line docstring should fit on one line
+   |
+27 |   @mock.patch("builtins.input", return_value="white")
+28 |   def test_get_bun(mock_input):
+29 | /     """
+30 | |     Test get_bun prompts the user and returns a valid bun choice.
+31 | |     """
+   | |_______^ D200
+32 |       bun = burger.get_bun()
+33 |       assert bun == "white"
+   |
+   = help: Reformat to one line
+
+test_burger.py:33:5: S101 Use of `assert` detected
+   |
+31 |     """
+32 |     bun = burger.get_bun()
+33 |     assert bun == "white"
+   |     ^^^^^^ S101
+   |
+
+test_burger.py:38:5: D205 1 blank line required between summary line and description
+   |
+36 |   @mock.patch("builtins.input", return_value="white")
+37 |   def test_get_bun_v2(mock_input):
+38 | /     """
+39 | |     Test get_bun_v2 if available, else fallback to get_bun,
+40 | |     ensuring it returns a valid bun choice.
+41 | |     """
+   | |_______^ D205
+42 |       if hasattr(burger, "get_bun_v2"):
+43 |           bun = burger.get_bun_v2()
+   |
+   = help: Insert single blank line
+
+test_burger.py:46:5: S101 Use of `assert` detected
+   |
+44 |     else:
+45 |         bun = burger.get_bun()
+46 |     assert bun == "white"
+   |     ^^^^^^ S101
+   |
+
+test_burger.py:50:5: D205 1 blank line required between summary line and description
+   |
+49 |   def test_calculate_burger_price():
+50 | /     """
+51 | |     Test calculate_burger_price correctly computes the price
+52 | |     including compound tax on a sample list of ingredients.
+53 | |     """
+   | |_______^ D205
+54 |       price = burger.calculate_burger_price(["bun", "beef", "cheese"])
+55 |       base = (
+   |
+   = help: Insert single blank line
+
+test_burger.py:61:5: S101 Use of `assert` detected
+   |
+59 |     )
+60 |     expected = base * 1.21  # after 2 iterations of 10% tax
+61 |     assert abs(price - expected) < 0.1
+   |     ^^^^^^ S101
+   |
+
+test_burger.py:66:5: D200 One-line docstring should fit on one line
+   |
+64 |   @mock.patch("builtins.input", return_value="beef")
+65 |   def test_get_meat_known(mock_input):
+66 | /     """
+67 | |     Test get_meat returns a valid known meat choice immediately.
+68 | |     """
+   | |_______^ D200
+69 |       meat = burger.get_meat()
+70 |       assert meat == "beef"
+   |
+   = help: Reformat to one line
+
+test_burger.py:70:5: S101 Use of `assert` detected
+   |
+68 |     """
+69 |     meat = burger.get_meat()
+70 |     assert meat == "beef"
+   |     ^^^^^^ S101
+   |
+
+test_burger.py:75:5: D205 1 blank line required between summary line and description
+   |
+73 |   @mock.patch("builtins.input", side_effect=["unknownmeat", "beef"])
+74 |   def test_get_meat_unknown_then_known(mock_input):
+75 | /     """
+76 | |     Test get_meat prompts again after invalid input
+77 | |     and eventually returns a valid meat choice.
+78 | |     """
+   | |_______^ D205
+79 |       meat = burger.get_meat()
+80 |       assert meat == "beef"
+   |
+   = help: Insert single blank line
+
+test_burger.py:80:5: S101 Use of `assert` detected
+   |
+78 |     """
+79 |     meat = burger.get_meat()
+80 |     assert meat == "beef"
+   |     ^^^^^^ S101
+   |
+
+test_burger.py:85:5: D200 One-line docstring should fit on one line
+   |
+83 |   @mock.patch("builtins.input", return_value="testpassword")
+84 |   def test_get_sauce(mock_input):
+85 | /     """
+86 | |     Test get_sauce returns expected sauces, mocking password input.
+87 | |     """
+   | |_______^ D200
+88 |       sauce = burger.get_sauce()
+89 |       # Breaking assertion into parts for better clarity
+   |
+   = help: Reformat to one line
+
+test_burger.py:90:5: S101 Use of `assert` detected
+   |
+88 |     sauce = burger.get_sauce()
+89 |     # Breaking assertion into parts for better clarity
+90 |     assert "ketchup" in sauce
+   |     ^^^^^^ S101
+91 |     assert "mustard" in sauce
+   |
+
+test_burger.py:91:5: S101 Use of `assert` detected
+   |
+89 |     # Breaking assertion into parts for better clarity
+90 |     assert "ketchup" in sauce
+91 |     assert "mustard" in sauce
+   |     ^^^^^^ S101
+   |
+
+test_burger.py:97:5: D200 One-line docstring should fit on one line
+    |
+ 95 |   @mock.patch("builtins.print")
+ 96 |   def test_get_cheese(mock_print, mock_input):
+ 97 | /     """
+ 98 | |     Test get_cheese returns the chosen cheese and prints confirmation.
+ 99 | |     """
+    | |_______^ D200
+100 |       cheese = burger.get_cheese()
+101 |       assert cheese == "cheddar"
+    |
+    = help: Reformat to one line
+
+test_burger.py:101:5: S101 Use of `assert` detected
+    |
+ 99 |     """
+100 |     cheese = burger.get_cheese()
+101 |     assert cheese == "cheddar"
+    |     ^^^^^^ S101
+102 |     assert mock_print.call_count == 1
+    |
+
+test_burger.py:102:5: S101 Use of `assert` detected
+    |
+100 |     cheese = burger.get_cheese()
+101 |     assert cheese == "cheddar"
+102 |     assert mock_print.call_count == 1
+    |     ^^^^^^ S101
+    |
+
+test_burger.py:113:5: D205 1 blank line required between summary line and description
+    |
+111 |       mock_price, mock_cheese, mock_sauce, mock_meat, mock_bun
+112 |   ):
+113 | /     """
+114 | |     Test assemble_burger returns a string containing all components
+115 | |     of the burger in the expected format.
+116 | |     """
+    | |_______^ D205
+117 |       burger_str = burger.assemble_burger()
+118 |       assert "white bun" in burger_str
+    |
+    = help: Insert single blank line
+
+test_burger.py:118:5: S101 Use of `assert` detected
+    |
+116 |     """
+117 |     burger_str = burger.assemble_burger()
+118 |     assert "white bun" in burger_str
+    |     ^^^^^^ S101
+119 |     assert "beef" in burger_str
+120 |     assert "ketchup and mustard" in burger_str
+    |
+
+test_burger.py:119:5: S101 Use of `assert` detected
+    |
+117 |     burger_str = burger.assemble_burger()
+118 |     assert "white bun" in burger_str
+119 |     assert "beef" in burger_str
+    |     ^^^^^^ S101
+120 |     assert "ketchup and mustard" in burger_str
+121 |     assert "cheddar cheese" in burger_str
+    |
+
+test_burger.py:120:5: S101 Use of `assert` detected
+    |
+118 |     assert "white bun" in burger_str
+119 |     assert "beef" in burger_str
+120 |     assert "ketchup and mustard" in burger_str
+    |     ^^^^^^ S101
+121 |     assert "cheddar cheese" in burger_str
+    |
+
+test_burger.py:121:5: S101 Use of `assert` detected
+    |
+119 |     assert "beef" in burger_str
+120 |     assert "ketchup and mustard" in burger_str
+121 |     assert "cheddar cheese" in burger_str
+    |     ^^^^^^ S101
+    |
+
+test_burger.py:126:5: D200 One-line docstring should fit on one line
+    |
+124 |   @mock.patch("builtins.open", new_callable=mock.mock_open)
+125 |   def test_save_burger(mock_open):
+126 | /     """
+127 | |     Test save_burger writes burger data and burger count to files.
+128 | |     """
+    | |_______^ D200
+129 |       test_burger = "test burger"
+130 |       burger.save_burger(test_burger)
+    |
+    = help: Reformat to one line
+
+test_burger.py:132:5: S101 Use of `assert` detected
+    |
+130 |     burger.save_burger(test_burger)
+131 |     # Should write burger and burger count to files
+132 |     assert mock_open.call_count >= 2
+    |     ^^^^^^ S101
+133 |     mock_open().write.assert_any_call(test_burger)
+    |
+
+test_burger.py:139:5: D200 One-line docstring should fit on one line
+    |
+137 |   @mock.patch("burger.save_burger")
+138 |   def test_main(mock_save, mock_assemble):
+139 | /     """
+140 | |     Test main function calls assemble_burger and save_burger once.
+141 | |     """
+    | |_______^ D200
+142 |       burger.main()
+143 |       mock_assemble.assert_called_once()
+    |
+    = help: Reformat to one line
+
+Found 31 errors.
+[*] 4 fixable with the `--fix` option (6 hidden fixes can be enabled with the `--unsafe-fixes` option).

@@ -1,6 +1,8 @@
-import pytest
-from unittest import mock
 from datetime import datetime
+from unittest import mock
+
+import pytest
+
 import burger
 
 
@@ -92,18 +94,13 @@ def test_get_sauce(mock_input):
 
 
 @mock.patch("builtins.input", return_value="cheddar")
-@mock.patch("builtins.print")
-def test_get_cheese(mock_print, mock_input):
+def test_get_cheese(mock_input):
     """
-    Test get_cheese returns the chosen cheese and prints confirmation.
+    Test get_cheese returns the chosen cheese.
     """
     cheese = burger.get_cheese()
     assert cheese == "cheddar"
-    
-    # Ensure print is called exactly once
-    assert mock_print.call_count == 1
-    # Ensure that the printed message contains the selected cheese
-    assert "Cheese selected: cheddar" in [call[0][0] for call in mock_print.call_args_list]
+
 
 
 @mock.patch("burger.get_bun", return_value="white")

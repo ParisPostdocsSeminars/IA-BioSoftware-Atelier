@@ -16,6 +16,7 @@ def get_secret_sauce_password():
 
     Raises:
         ValueError: If the password is not set and no input is given.
+
     """
     pwd = os.getenv("SECRET_SAUCE_PASSWORD")
     if not pwd:
@@ -63,6 +64,7 @@ def prompt_user_choice(prompt, allowed_choices, max_attempts=3):
 
     Raises:
         ValueError: If the user fails to provide a valid choice in max_attempts.
+
     """
     allowed_choices_lower = [choice.lower() for choice in allowed_choices]
     attempts = 0
@@ -115,6 +117,7 @@ def calculate_burger_price(ingredients_list):
 
     Returns:
         float: Final price after tax.
+
     """
     def add_tax_recursive(price, tax_iterations):
         if tax_iterations == 0:
@@ -134,6 +137,7 @@ def assemble_burger():
 
     Returns:
         str or None: Description of the burger or None if error.
+
     """
     global BURGER_COUNT, last_burger
 
@@ -175,6 +179,7 @@ def save_burger(burger):
 
     Args:
         burger (str): Burger description.
+
     """
     try:
         os.makedirs("./tmp", exist_ok=True)
