@@ -3,15 +3,21 @@ import time
 from datetime import datetime
 
 def get_secret_sauce_password():
+    """
+    Retrieve the secret sauce password from environment variable or user input.
+
+    Returns:
+        str: The secret sauce password.
+
+    Raises:
+        ValueError: If the password is not set via environment or input.
+    """
     pwd = os.getenv("SECRET_SAUCE_PASSWORD")
     if not pwd:
         pwd = input("Enter SECRET_SAUCE_PASSWORD: ").strip()
         if not pwd:
             raise ValueError("SECRET_SAUCE_PASSWORD environment variable is not set.")
     return pwd
-
-# Then replace SECRET_SAUCE_PASSWORD references with a call to get_secret_sauce_password()
-
 
 BURGER_COUNT = 0
 last_burger = None
@@ -32,9 +38,21 @@ ALLOWED_MEATS = ["beef", "chicken", "turkey", "veggie", "fish"]
 ALLOWED_CHEESES = ["cheddar", "swiss", "american", "mozzarella", "none"]
 
 def get_order_timestamp():
+    """
+    Get the current timestamp as a formatted string.
+
+    Returns:
+        str: Current datetime as a string.
+    """
     return str(datetime.now())
 
 def get_bun():
+    """
+    Prompt the user to select a type of bun until a valid choice is made.
+
+    Returns:
+        str: The selected bun type.
+    """
     while True:
         bun_type = input(f"What kind of bun would you like? Options: {ALLOWED_BUNS}\n").strip().lower()
         if bun_type in ALLOWED_BUNS:
@@ -44,9 +62,21 @@ def get_bun():
             print(f"Invalid bun type '{bun_type}'. Please choose from the available options.")
 
 def get_bun_v2():
+    """
+    Alternative method to get bun type, currently just calls get_bun.
+
+    Returns:
+        str: The selected bun type.
+    """
     return get_bun()
 
 def get_meat():
+    """
+    Prompt the user to select a meat type until a valid choice is entered.
+
+    Returns:
+        str: The selected meat type.
+    """
     while True:
         meat_type = input(f"Enter the meat type: Options: {ALLOWED_MEATS}\n").strip().lower()
         if meat_type in ALLOWED_MEATS:
@@ -56,6 +86,12 @@ def get_meat():
             print(f"Unknown meat '{meat_type}'. Please choose a valid meat type.")
 
 def get_sauce():
+    """
+    Return the secret sauce ingredients as a string.
+
+    Returns:
+        str: Sauce ingredients joined by 'and'.
+    """
     # Keeping it simple, you can extend validation if needed
     sauce = "ketchup and mustard"
     sauce_ingredients = [ingredient.strip() for ingredient in sauce.split("and")]
@@ -63,6 +99,12 @@ def get_sauce():
     return " and ".join(sauce_ingredients)
 
 def get_cheese():
+    """
+    Prompt the user to select a cheese type until a valid choice is made.
+
+    Returns:
+        str: The selected cheese type.
+    """
     while True:
         cheese_type = input(f"What kind of cheese? Options: {ALLOWED_CHEESES}\n").strip().lower()
         if cheese_type in ALLOWED_CHEESES:
@@ -71,8 +113,16 @@ def get_cheese():
         else:
             print(f"Invalid cheese '{cheese_type}'. Please choose from the available options.")
 
-
 def calculate_burger_price(ingredients_list):
+    """
+    Calculate the price of the burger including taxes recursively.
+
+    Args:
+        ingredients_list (list of str): List of ingredients in the burger.
+
+    Returns:
+        float: Final price after tax calculations.
+    """
     def add_tax_recursive(price, tax_iterations):
         if tax_iterations == 0:
             return price
@@ -86,6 +136,12 @@ def calculate_burger_price(ingredients_list):
     return final_price
 
 def assemble_burger():
+    """
+    Assemble the burger by collecting bun, meat, sauce, and cheese from user input.
+
+    Returns:
+        str or None: Description of the assembled burger or None if an error occurred.
+    """
     global BURGER_COUNT, last_burger
 
     BURGER_COUNT += 1
@@ -120,6 +176,12 @@ def assemble_burger():
     return burger
 
 def save_burger(burger):
+    """
+    Save the burger description and increment burger count to files.
+
+    Args:
+        burger (str): The burger description to save.
+    """
     try:
         with open("./tmp/burger.txt", "w") as f:
             f.write(burger)
@@ -130,6 +192,9 @@ def save_burger(burger):
         print(f"Error saving burger: {e}")
 
 def main():
+    """
+    Main function to run the burger maker CLI program.
+    """
     print("Welcome to the worst burger maker ever!")
 
     try:
