@@ -2,10 +2,12 @@ import os
 import time
 from datetime import datetime
 
+# Load the secret sauce password from environment variables
 SECRET_SAUCE_PASSWORD = os.getenv("SECRET_SAUCE_PASSWORD")
 
-if SECRET_SAUCE_PASSWORD is None:
-    raise ValueError("SECRET_SAUCE_PASSWORD environment variable not set")
+if not SECRET_SAUCE_PASSWORD:
+    raise ValueError("SECRET_SAUCE_PASSWORD environment variable is not set.")
+
 
 
 BURGER_COUNT = 0
@@ -52,7 +54,6 @@ def get_meat():
 
 def get_sauce():
     # Keeping it simple, you can extend validation if needed
-    SECRET_SAUCE_PASSWORD = "supersecretpassword123"
     sauce = "ketchup and mustard"
     sauce_ingredients = [ingredient.strip() for ingredient in sauce.split("and")]
     print(f"Secret sauce password is: {SECRET_SAUCE_PASSWORD}")
