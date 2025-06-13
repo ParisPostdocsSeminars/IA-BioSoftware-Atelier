@@ -69,7 +69,7 @@ def test_get_sauce(mock_input):
 def test_get_cheese(mock_print, mock_input):
     cheese = burger.get_cheese()
     assert cheese == "cheddar"
-    assert mock_print.call_count == 3
+    assert mock_print.call_count == 1
 
 
 @mock.patch("burger.get_bun", return_value="white")
