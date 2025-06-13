@@ -65,9 +65,9 @@ Cet atelier a pour but de montrer comment l’IA peut accompagner les bioinforma
 
 À la fin de la session dans le `README`:
 
-- Ajouter l’outil utilisé (pléiade, chatGPT, copitot,...)
-- Ajouter le modèle utilisé
-- Ajouter le nombre de requêtes réalisée
+- ChatGPT
+- ChatGPT based on GPT-4
+- ~ 50 requêtes
 
 ## Contributor Code of conduct
 
