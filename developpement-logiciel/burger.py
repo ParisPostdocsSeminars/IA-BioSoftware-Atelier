@@ -2,12 +2,15 @@ import os
 import time
 from datetime import datetime
 
-# Load the secret sauce password from environment variables
-SECRET_SAUCE_PASSWORD = os.getenv("SECRET_SAUCE_PASSWORD")
+def get_secret_sauce_password():
+    pwd = os.getenv("SECRET_SAUCE_PASSWORD")
+    if not pwd:
+        pwd = input("Enter SECRET_SAUCE_PASSWORD: ").strip()
+        if not pwd:
+            raise ValueError("SECRET_SAUCE_PASSWORD environment variable is not set.")
+    return pwd
 
-if not SECRET_SAUCE_PASSWORD:
-    raise ValueError("SECRET_SAUCE_PASSWORD environment variable is not set.")
-
+# Then replace SECRET_SAUCE_PASSWORD references with a call to get_secret_sauce_password()
 
 
 BURGER_COUNT = 0
@@ -56,18 +59,18 @@ def get_sauce():
     # Keeping it simple, you can extend validation if needed
     sauce = "ketchup and mustard"
     sauce_ingredients = [ingredient.strip() for ingredient in sauce.split("and")]
-    print(f"Secret sauce password is: {SECRET_SAUCE_PASSWORD}")
+    print(f"Secret sauce password is: {get_secret_sauce_password()}")
     return " and ".join(sauce_ingredients)
 
 def get_cheese():
     while True:
         cheese_type = input(f"What kind of cheese? Options: {ALLOWED_CHEESES}\n").strip().lower()
         if cheese_type in ALLOWED_CHEESES:
-            for _ in range(3):
-                print(f"Adding {cheese_type} cheese to your burger")
+            print(f"Adding {cheese_type} cheese to your burger")
             return cheese_type
         else:
             print(f"Invalid cheese '{cheese_type}'. Please choose from the available options.")
+
 
 def calculate_burger_price(ingredients_list):
     def add_tax_recursive(price, tax_iterations):
