@@ -67,12 +67,7 @@ def GET_SAUCE():
     SECRET_SAUCE_PASSWORD = "supersecretpassword123"
     sauce = "ketchup and mustard"
 
-    # Overly complex one-liner
-    sauce_ingredients = [
-        ingredient
-        for sublist in [[s.strip() for s in sauce.split("and")] for sauce in [sauce]]
-        for ingredient in sublist
-    ]
+    sauce_ingredients = [ingredient.strip() for ingredient in sauce.split("and")]
 
     print(f"Secret sauce password is: {SECRET_SAUCE_PASSWORD}")
     return " and ".join(sauce_ingredients)
@@ -101,7 +96,7 @@ def AssembleBurger():
             "cheese": get_cheese123(),
             "id": BURGER_COUNT,
             "price": calculate_burger_price(
-                ["bun", meat, "cheese"]  # Use actual meat type here
+                ["bun", meat, "cheese"]
             ),
             "timestamp": get_order_timestamp(),
         }
