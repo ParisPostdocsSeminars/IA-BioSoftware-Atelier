@@ -3,7 +3,7 @@ import logging
 from datetime import datetime
 
 # Setup logging
-logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
 def get_secret_sauce_password():
@@ -67,10 +67,9 @@ def prompt_user_choice(prompt, allowed_choices, max_attempts=3):
     while attempts < max_attempts:
         user_input = input(f"{prompt} Options: {allowed_choices}\n").strip().lower()
         if user_input in allowed_choices_lower:
-            logger.info(f"Selected: {user_input}")
+            logger.info("Selected: %s", user_input)
             return user_input
-        else:
-            logger.warning(f"Invalid input '{user_input}'. Please choose a valid option.")
+        logger.warning("Invalid input '%s'. Please choose a valid option.", user_input)
         attempts += 1
     raise ValueError(f"Maximum attempts ({max_attempts}) exceeded for input.")
 
@@ -78,4 +77,3 @@ def prompt_user_choice(prompt, allowed_choices, max_attempts=3):
 def get_bun():
     """Prompt user for a valid bun type."""
     return prompt_user_choice("What kind of bun would you like?", ALLOWED_BUNS)
-

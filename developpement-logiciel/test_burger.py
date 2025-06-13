@@ -4,14 +4,21 @@ from unittest import mock
 from datetime import datetime
 import burger
 
-# Fixture to mock the secret sauce password input or env var
+
 @pytest.fixture(autouse=True)
 def set_secret_sauce_password(monkeypatch):
-    # Prefer env var for simplicity, but can mock input if needed
+    """
+    Fixture to set the SECRET_SAUCE_PASSWORD environment variable
+    for all tests to avoid interactive input.
+    """
     monkeypatch.setenv("SECRET_SAUCE_PASSWORD", "testpassword")
 
 
 def test_get_order_timestamp():
+    """
+    Test that get_order_timestamp returns a string
+    representing the current timestamp in the expected format.
+    """
     ts = burger.get_order_timestamp()
     assert isinstance(ts, str)
     # This will raise if format is wrong
@@ -20,13 +27,19 @@ def test_get_order_timestamp():
 
 @mock.patch("builtins.input", return_value="white")
 def test_get_bun(mock_input):
+    """
+    Test get_bun prompts the user and returns a valid bun choice.
+    """
     bun = burger.get_bun()
     assert bun == "white"
 
 
 @mock.patch("builtins.input", return_value="white")
 def test_get_bun_v2(mock_input):
-    # If get_bun_v2 exists
+    """
+    Test get_bun_v2 if available, else fallback to get_bun,
+    ensuring it returns a valid bun choice.
+    """
     if hasattr(burger, "get_bun_v2"):
         bun = burger.get_bun_v2()
     else:
@@ -35,6 +48,10 @@ def test_get_bun_v2(mock_input):
 
 
 def test_calculate_burger_price():
+    """
+    Test calculate_burger_price correctly computes the price
+    including compound tax on a sample list of ingredients.
+    """
     price = burger.calculate_burger_price(["bun", "beef", "cheese"])
     base = (
         burger.INGREDIENT_PRICES["bun"]
@@ -47,19 +64,28 @@ def test_calculate_burger_price():
 
 @mock.patch("builtins.input", return_value="beef")
 def test_get_meat_known(mock_input):
+    """
+    Test get_meat returns a valid known meat choice immediately.
+    """
     meat = burger.get_meat()
     assert meat == "beef"
 
 
 @mock.patch("builtins.input", side_effect=["unknownmeat", "beef"])
 def test_get_meat_unknown_then_known(mock_input):
+    """
+    Test get_meat prompts again after invalid input
+    and eventually returns a valid meat choice.
+    """
     meat = burger.get_meat()
     assert meat == "beef"
 
 
-# Mock input for secret sauce password inside get_sauce to avoid interactive input
 @mock.patch("builtins.input", return_value="testpassword")
 def test_get_sauce(mock_input):
+    """
+    Test get_sauce returns expected sauces, mocking password input.
+    """
     sauce = burger.get_sauce()
     assert "ketchup" in sauce and "mustard" in sauce
 
@@ -67,6 +93,9 @@ def test_get_sauce(mock_input):
 @mock.patch("builtins.input", return_value="cheddar")
 @mock.patch("builtins.print")
 def test_get_cheese(mock_print, mock_input):
+    """
+    Test get_cheese returns the chosen cheese and prints confirmation.
+    """
     cheese = burger.get_cheese()
     assert cheese == "cheddar"
     assert mock_print.call_count == 1
@@ -80,6 +109,10 @@ def test_get_cheese(mock_print, mock_input):
 def test_assemble_burger(
     mock_price, mock_cheese, mock_sauce, mock_meat, mock_bun
 ):
+    """
+    Test assemble_burger returns a string containing all components
+    of the burger in the expected format.
+    """
     burger_str = burger.assemble_burger()
     assert "white bun" in burger_str
     assert "beef" in burger_str
@@ -89,6 +122,9 @@ def test_assemble_burger(
 
 @mock.patch("builtins.open", new_callable=mock.mock_open)
 def test_save_burger(mock_open):
+    """
+    Test save_burger writes burger data and burger count to files.
+    """
     test_burger = "test burger"
     burger.save_burger(test_burger)
     # Should write burger and burger count to files
@@ -99,6 +135,9 @@ def test_save_burger(mock_open):
 @mock.patch("burger.assemble_burger", return_value="burger")
 @mock.patch("burger.save_burger")
 def test_main(mock_save, mock_assemble):
+    """
+    Test main function calls assemble_burger and save_burger once.
+    """
     burger.main()
     mock_assemble.assert_called_once()
     mock_save.assert_called_once_with("burger")
