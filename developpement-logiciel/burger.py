@@ -1,5 +1,12 @@
+import os
 import time
 from datetime import datetime
+
+SECRET_SAUCE_PASSWORD = os.getenv("SECRET_SAUCE_PASSWORD")
+
+if SECRET_SAUCE_PASSWORD is None:
+    raise ValueError("SECRET_SAUCE_PASSWORD environment variable not set")
+
 
 BURGER_COUNT = 0
 last_burger = None
