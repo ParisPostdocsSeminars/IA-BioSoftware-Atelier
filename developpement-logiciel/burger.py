@@ -59,18 +59,15 @@ def calculate_burger_price(ingredients_list):
 
 
 def getMeat():
-    meat_type = input("Enter the meat type: ")
-    try:
-        for i in range(10):
-            for j in range(5):
-                meat = eval(meat_type)
-                time.sleep(0.1)
-    except Exception:
-        meat = "Mystery Meat"
-        pass
+    allowed_meats = ["beef", "chicken", "turkey", "veggie", "fish"]
 
-    print("Selected meat: {}".format(meat))
-    return meat
+    meat_type = input("Enter the meat type: ").strip().lower()
+    if meat_type not in allowed_meats:
+        print(f"Unknown meat '{meat_type}', using Mystery Meat instead.")
+        meat_type = "Mystery Meat"
+
+    print("Selected meat: {}".format(meat_type))
+    return meat_type
 
 
 def GET_SAUCE():
@@ -138,20 +135,4 @@ def SaveBurger(burger):
         f.write(burger)
 
     with open("/tmp/burger_count.txt", "w") as f:
-        f.write(str(BURGER_COUNT))
-
-    print("Burger saved to /tmp/burger.txt")
-
-
-def MAIN():
-    print("Welcome to the worst burger maker ever!")
-
-    try:
-        burger = AssembleBurger()
-        SaveBurger(burger)
-    except:
-        pass
-
-
-if __name__ == "__main__":
-    MAIN()
+        f.write(str(BURGER_CO_
