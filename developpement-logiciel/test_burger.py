@@ -99,7 +99,11 @@ def test_get_cheese(mock_print, mock_input):
     """
     cheese = burger.get_cheese()
     assert cheese == "cheddar"
+    
+    # Ensure print is called exactly once
     assert mock_print.call_count == 1
+    # Ensure that the printed message contains the selected cheese
+    assert "Cheese selected: cheddar" in [call[0][0] for call in mock_print.call_args_list]
 
 
 @mock.patch("burger.get_bun", return_value="white")
@@ -142,3 +146,50 @@ def test_main(mock_save, mock_assemble):
     burger.main()
     mock_assemble.assert_called_once()
     mock_save.assert_called_once_with("burger")
+
+
+@mock.patch("builtins.input", side_effect=["invalid", "invalid", "beef"])
+def test_prompt_user_choice_invalid_then_valid(mock_input):
+    """
+    Test prompt_user_choice handles invalid input and eventually returns a valid choice.
+    """
+    choice = burger.prompt_user_choice("Choose a meat", burger.ALLOWED_MEATS)
+    assert choice == "beef"
+
+
+@mock.patch("builtins.input", side_effect=["invalid", "invalid", "invalid"])
+def test_prompt_user_choice_exceeds_max_attempts(mock_input):
+    """
+    Test prompt_user_choice raises ValueError after max attempts with invalid input.
+    """
+    with pytest.raises(ValueError):
+        burger.prompt_user_choice("Choose a meat", burger.ALLOWED_MEATS)
+
+
+@mock.patch("builtins.input", return_value="testpassword")
+@mock.patch("os.getenv", return_value=None)
+def test_get_secret_sauce_password_from_input(mock_getenv, mock_input):
+    """
+    Test get_secret_sauce_password retrieves password from user input.
+    """
+    password = burger.get_secret_sauce_password()
+    assert password == "testpassword"
+
+
+@mock.patch("os.getenv", return_value="envpassword")
+def test_get_secret_sauce_password_from_env(mock_getenv):
+    """
+    Test get_secret_sauce_password retrieves password from environment variable.
+    """
+    password = burger.get_secret_sauce_password()
+    assert password == "envpassword"
+
+
+@mock.patch("builtins.input", return_value="")
+@mock.patch("os.getenv", return_value=None)
+def test_get_secret_sauce_password_missing(mock_getenv, mock_input):
+    """
+    Test get_secret_sauce_password raises ValueError if neither environment variable nor input is provided.
+    """
+    with pytest.raises(ValueError):
+        burger.get_secret_sauce_password()
